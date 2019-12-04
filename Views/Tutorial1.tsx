@@ -35,7 +35,7 @@ export default ({ navigation }: props) => {
 					alignItems: "flex-start",
 				}}>
 				<TouchableOpacity
-				onPress={()=> navigation.goBack()}
+				onPress={()=> navigation.navigate("Welcome1")}
 				>
 
 					<Image
