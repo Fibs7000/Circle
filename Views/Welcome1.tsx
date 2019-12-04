@@ -1,191 +1,112 @@
-//
-//  Welcome5
-//  Project
-//
-//  Created by [Author].
-//  Copyright © 2018 [Company]. All rights reserved.
-//
-
-import { View, Image, StyleSheet, Text } from "react-native"
+import { View, Image, StyleSheet, Text, TouchableOpacity, StatusBar } from "react-native"
 import React from "react"
+import { NavigationScreenProp, NavigationState, NavigationParams } from 'react-navigation';
 
+type props = {navigation: NavigationScreenProp<NavigationState, NavigationParams>};
 
-export default class Welcome1 extends React.Component {
+export default ({navigation}: props) => {
 
-	static navigationOptions = ({ navigation }) => {
-	
-		const { params = {} } = navigation.state
-		return {
-				header: null,
-				headerLeft: null,
-				headerRight: null,
-			}
-	}
-
-	constructor(props) {
-		super(props)
-	}
-
-	componentDidMount() {
-	
-	}
-
-	render() {
-	
-		return <View
-				style={styles.viewView}>
+	return <View
+		style={styles.viewView}>
+			
+		<StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
+		<View
+			style={{
+				flex: 1,
+				marginTop: 70,
+				alignItems: "stretch"
+			}}>
+			<View style={{ flex: 1, alignItems: "center" }}>
 				<Image
-					source={require("../assets/images/top.png")}
-					style={styles.topImage}/>
-				<View
-					pointerEvents="box-none"
-					style={{
-						flex: 1,
-						marginTop: 140,
-					}}>
-					<View
-						pointerEvents="box-none"
-						style={{
-							position: "absolute",
-							left: 0,
-							right: 133,
-							top: 161,
-							bottom: 0,
-							alignItems: "flex-end",
-						}}>
-						<Text
-							style={styles.circleText}>CIRCLE</Text>
-						<Text
-							style={styles.searchingForUniqueText}>Searching for unique Events was never so easy </Text>
+					source={require("../assets/images/circleWhite.png")}
+					style={styles.gruppe10072Image} />
+				<Text
+					style={styles.circleText}>CIRCLE</Text>
+				<Text
+					style={styles.searchingForUniqueText}>Searching for unique Events was never so easy </Text>
+
+				<View style={{ marginTop: 50 }} >
+					<View style={styles.gruppe9878View}>
+						<View >
+							<Text style={styles.halloText}>Hallo!</Text>
+							<Text style={styles.woherKommstDuText}>Woher kommst du?</Text>
+						</View>
 						<View
-							style={{
-								flex: 1,
-							}}/>
-						<View
-							style={styles.contentView}>
+							style={styles.buttonsView}>
 							<View
-								style={styles.gruppe9878View}>
+								style={styles.buttonTwoView}>
 								<View
-									style={styles.gruppe9877View}>
-									<Text
-										style={styles.halloText}>Hallo!</Text>
-									<View
-										style={{
-											flex: 1,
-										}}/>
-									<Text
-										style={styles.woherKommstDuText}>Woher kommst du?</Text>
+									pointerEvents="box-none"
+									style={{
+										position: "absolute",
+										left: 0,
+										right: 0,
+										top: 0,
+										bottom: 0,
+										justifyContent: "center",
+									}}>
+									<Image
+										source={require("../assets/images/bg.png")}
+										style={styles.bgThreeImage} />
 								</View>
 								<View
-									style={styles.buttonsView}>
-									<View
-										style={styles.buttonTwoView}>
-										<View
-											pointerEvents="box-none"
-											style={{
-												position: "absolute",
-												left: 0,
-												right: 0,
-												top: 0,
-												bottom: 0,
-												justifyContent: "center",
-											}}>
-											<Image
-												source={require("../assets/images/bg.png")}
-												style={styles.bgThreeImage}/>
-										</View>
-										<View
-											pointerEvents="box-none"
-											style={{
-												position: "absolute",
-												alignSelf: "center",
-												top: 0,
-												bottom: 0,
-												justifyContent: "center",
-											}}>
-											<Text
-												style={styles.osterreichText}>Österreich</Text>
-										</View>
-									</View>
-									<View
-										style={{
-											flex: 1,
-										}}/>
-									<View
-										style={styles.buttonView}>
-										<View
-											pointerEvents="box-none"
-											style={{
-												position: "absolute",
-												left: 0,
-												right: 0,
-												top: 0,
-												bottom: 0,
-												justifyContent: "center",
-											}}>
-											<Image
-												source={require("../assets/images/bg.png")}
-												style={styles.bgTwoImage}/>
-										</View>
-										<View
-											pointerEvents="box-none"
-											style={{
-												position: "absolute",
-												alignSelf: "center",
-												top: 0,
-												bottom: 0,
-												justifyContent: "center",
-											}}>
-											<Text
-												style={styles.bestatigenText}>Bestätigen</Text>
-										</View>
-									</View>
+									pointerEvents="box-none"
+									style={{
+										position: "absolute",
+										alignSelf: "center",
+										top: 0,
+										bottom: 0,
+										justifyContent: "center",
+									}}>
+									<Text
+										style={styles.osterreichText}>Österreich</Text>
 								</View>
 							</View>
 							<View
 								style={{
 									flex: 1,
-								}}/>
-							<Image
-								source={require("../assets/images/bg-2.png")}
-								style={styles.bgImage}/>
+								}} />
+							<TouchableOpacity
+								style={styles.buttonView} onPress={() => navigation.navigate("tutorial")}>
+								<View
+									pointerEvents="box-none"
+									style={{
+										position: "absolute",
+										left: 0,
+										right: 0,
+										top: 0,
+										bottom: 0,
+										justifyContent: "center",
+									}}>
+									<Image
+										source={require("../assets/images/bg.png")}
+										style={styles.bgTwoImage} />
+								</View>
+								<View
+									pointerEvents="box-none"
+									style={{
+										position: "absolute",
+										alignSelf: "center",
+										top: 0,
+										bottom: 0,
+										justifyContent: "center",
+									}}>
+									<Text
+										style={styles.bestatigenText}>Bestätigen</Text>
+								</View>
+							</TouchableOpacity>
 						</View>
 					</View>
-					<View
-						pointerEvents="box-none"
-						style={{
-							position: "absolute",
-							right: 260,
-							width: 215,
-							bottom: 77,
-							height: 127,
-							justifyContent: "flex-end",
-							alignItems: "flex-end",
-						}}>
-						<Image
-							source={require("../assets/images/arrow.png")}
-							style={styles.arrowImage}/>
-						<View
-							style={styles.indicatorView}/>
-					</View>
-					<Image
-						source={require("../assets/images/gruppe-10072-2.png")}
-						style={styles.gruppe10072Image}/>
 				</View>
 			</View>
-	}
+		</View>
+	</View>
 }
 
 const styles = StyleSheet.create({
 	viewView: {
 		backgroundColor: "rgb(99, 175, 252)",
 		flex: 1,
-	},
-	topImage: {
-		backgroundColor: "transparent",
-		resizeMode: "cover",
-		width: null,
-		height: 45,
 	},
 	circleText: {
 		backgroundColor: "transparent",
@@ -196,7 +117,6 @@ const styles = StyleSheet.create({
 		fontWeight: "normal",
 		textAlign: "left",
 		letterSpacing: 15,
-		marginRight: 186,
 	},
 	searchingForUniqueText: {
 		backgroundColor: "transparent",
@@ -210,23 +130,10 @@ const styles = StyleSheet.create({
 		width: 260,
 		marginTop: 17,
 	},
-	contentView: {
-		backgroundColor: "transparent",
-		alignSelf: "stretch",
-		height: 405,
-		alignItems: "flex-end",
-	},
 	gruppe9878View: {
 		backgroundColor: "transparent",
 		width: 327,
-		height: 227,
-		marginRight: 110,
-	},
-	gruppe9877View: {
-		backgroundColor: "transparent",
-		height: 69,
-		marginLeft: 6,
-		marginRight: 5,
+		height: 227
 	},
 	halloText: {
 		color: "rgb(229, 229, 229)",
@@ -303,25 +210,14 @@ const styles = StyleSheet.create({
 	arrowImage: {
 		backgroundColor: "transparent",
 		resizeMode: "center",
+		right: 0,
+		position: "absolute",
 		width: 13,
 		height: 7,
-		marginBottom: 117,
-	},
-	indicatorView: {
-		backgroundColor: "white",
-		opacity: 0.2,
-		borderRadius: 1,
-		alignSelf: "center",
-		width: 134,
-		height: 3,
 	},
 	gruppe10072Image: {
 		backgroundColor: "transparent",
-		resizeMode: "cover",
-		position: "absolute",
-		right: 0,
-		width: 484,
-		top: 0,
-		height: 351,
+		width: "100%",
+		resizeMode: "center"
 	},
 })

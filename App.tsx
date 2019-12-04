@@ -7,14 +7,15 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-
-import Welcome1 from './Views/Welcome2';
-// import Welcome1 from './Views/Tutorial3';
+import "react-native-gesture-handler";
+// import Welcome1 from './Views/Welcome2';
+import Welcome1 from './Views/Tutorial2';
+import Router from './Router';
 
 const App = () => {
   return (
     <>
-     <Welcome1/>
+     <Router/>
     </>
   );
 };

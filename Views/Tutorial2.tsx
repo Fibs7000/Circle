@@ -1,193 +1,173 @@
-//
-//  Welcome7
-//  Project
-//
-//  Created by [Author].
-//  Copyright © 2018 [Company]. All rights reserved.
-//
-
 import LinearGradient from "react-native-linear-gradient"
-import { StyleSheet, Image, View, Text } from "react-native"
-import React from "react"
+import { StyleSheet, Image, View, Text, TouchableOpacity } from "react-native"
+import React, { constructor } from "react"
+import { NavigationScreenProp, NavigationState, NavigationParams } from "react-navigation";
 
 
-export default class Tutorial2 extends React.Component {
+type props = { navigation: NavigationScreenProp<NavigationState, NavigationParams> };
 
-	static navigationOptions = ({ navigation }) => {
-	
-		const { params = {} } = navigation.state
-		return {
-				header: null,
-				headerLeft: null,
-				headerRight: null,
-			}
-	}
+export default ({ navigation }: props) => {
 
-	constructor(props) {
-		super(props)
-	}
-
-	componentDidMount() {
-	
-	}
-
-	render() {
-	
-		return <LinearGradient
-				start={{
-					x: 0.48,
-					y: 0.12,
-				}}
-				end={{
-					x: 0.5,
-					y: 0.6,
-				}}
-				locations={[0, 1]}
-				colors={["rgb(99, 175, 252)", "rgb(70, 134, 228)"]}
-				style={styles.viewViewLinearGradient}>
+	return <LinearGradient
+		start={{
+			x: 0.48,
+			y: 0.12,
+		}}
+		end={{
+			x: 0.5,
+			y: 0.6,
+		}}
+		locations={[0, 1]}
+		colors={["rgb(99, 175, 252)", "rgb(70, 134, 228)"]}
+		style={styles.viewViewLinearGradient}>
+		<View
+			style={styles.viewView}>
+			<View
+				pointerEvents="box-none"
+				style={{
+					position: "absolute",
+					left: -83,
+					right: -83,
+					top: 0,
+					bottom: 9,
+				}}>
+				<Image
+					source={require("../assets/images/top.png")}
+					style={styles.topImage} />
 				<View
-					style={styles.viewView}>
-					<View
-						pointerEvents="box-none"
-						style={{
-							position: "absolute",
-							left: -83,
-							right: -83,
-							top: 0,
-							bottom: 9,
-						}}>
+					pointerEvents="box-none"
+					style={{
+						height: 24,
+						marginLeft: 107,
+						marginRight: 119,
+						marginTop: 14,
+						flexDirection: "row",
+						alignItems: "flex-start",
+					}}>
+					<TouchableOpacity
+						onPress={() => navigation.goBack()}
+					>
 						<Image
-							source={require("../assets/images/top.png")}
-							style={styles.topImage}/>
-						<View
-							pointerEvents="box-none"
-							style={{
-								height: 24,
-								marginLeft: 107,
-								marginRight: 119,
-								marginTop: 14,
-								flexDirection: "row",
-								alignItems: "flex-start",
-							}}>
-							<Image
-								source={require("../assets/images/back-icon-2.png")}
-								style={styles.backIconImage}/>
-							<View
-								style={{
-									flex: 1,
-								}}/>
-							<Text
-								style={styles.uberspringenText}>Überspringen</Text>
-						</View>
-						<View
-							style={styles.gruppe9886View}>
-							<View
-								style={styles.teamView}>
-								<Image
-									source={require("../assets/images/window.png")}
-									style={styles.windowImage}/>
-								<View
-									pointerEvents="box-none"
-									style={{
-										position: "absolute",
-										left: 138,
-										right: 109,
-										top: 116,
-										height: 169,
-										flexDirection: "row",
-										alignItems: "flex-start",
-									}}>
-									<Image
-										source={require("../assets/images/tree.png")}
-										style={styles.treeImage}/>
-									<View
-										style={{
-											flex: 1,
-										}}/>
-									<Image
-										source={require("../assets/images/plant.png")}
-										style={styles.plantImage}/>
-								</View>
-								<Image
-									source={require("../assets/images/window-reflactions.png")}
-									style={styles.windowReflactionsImage}/>
-								<View
-									style={styles.guyOnChairView}>
-									<Image
-										source={require("../assets/images/pfad-2476.png")}
-										style={styles.pfad2476Image}/>
-									<Image
-										source={require("../assets/images/neck.png")}
-										style={styles.neckImage}/>
-									<Image
-										source={require("../assets/images/pfad-2479.png")}
-										style={styles.pfad2479Image}/>
-									<Image
-										source={require("../assets/images/gruppe-9887.png")}
-										style={styles.gruppe9887Image}/>
-									<Image
-										source={require("../assets/images/pfad-2480.png")}
-										style={styles.pfad2480Image}/>
-									<View
-										style={styles.shirtView}>
-										<Image
-											source={require("../assets/images/gruppe-9888.png")}
-											style={styles.gruppe9888Image}/>
-										<Image
-											source={require("../assets/images/shirt.png")}
-											style={styles.shirtImage}/>
-									</View>
-								</View>
-								<Image
-									source={require("../assets/images/guy-standin.png")}
-									style={styles.guyStandinImage}/>
-								<Image
-									source={require("../assets/images/girl-and-desk.png")}
-									style={styles.girlAndDeskImage}/>
-							</View>
-							<View
-								style={{
-									flex: 1,
-								}}/>
-							<Image
-								source={require("../assets/images/noise-layer.png")}
-								style={styles.noiseLayerImage}/>
-						</View>
-						<View
-							pointerEvents="box-none"
-							style={{
-								height: 10,
-								marginLeft: 236,
-								marginRight: 235,
-								marginTop: 22,
-								flexDirection: "row",
-								alignItems: "flex-start",
-							}}>
-							<Image
-								source={require("../assets/images/2-2.png")}
-								style={styles.imageImage}/>
-							<View
-								style={{
-									flex: 1,
-								}}/>
-							<View
-								style={styles.viewTwoView}/>
-						</View>
-						<View
-							style={{
-								flex: 1,
-							}}/>
+							source={require("../assets/images/back-icon-2.png")}
+							style={styles.backIconImage} />
+					</TouchableOpacity>
+					<View
+						style={{
+							flex: 1,
+						}} />
+					<TouchableOpacity
+						onPress={() => navigation.navigate("Welcome2")}
+					>
 						<Text
-							style={styles.reserviereInDeinerText}>Reserviere in deiner Lieblingsbar ganz einfach und ohne großem Aufwand</Text>
-						<View
-							style={styles.indicatorView}/>
-					</View>
-					<Image
-						source={require("../assets/images/2.png")}
-						style={styles.imageTwoImage}/>
+							style={styles.uberspringenText}>Überspringen</Text>
+					</TouchableOpacity>
 				</View>
-			</LinearGradient>
-	}
+				<View
+					style={styles.gruppe9886View}>
+					<View
+						style={styles.teamView}>
+						<Image
+							source={require("../assets/images/window.png")}
+							style={styles.windowImage} />
+						<View
+							pointerEvents="box-none"
+							style={{
+								position: "absolute",
+								left: 138,
+								right: 109,
+								top: 116,
+								height: 169,
+								flexDirection: "row",
+								alignItems: "flex-start",
+							}}>
+							<Image
+								source={require("../assets/images/tree.png")}
+								style={styles.treeImage} />
+							<View
+								style={{
+									flex: 1,
+								}} />
+							<Image
+								source={require("../assets/images/plant.png")}
+								style={styles.plantImage} />
+						</View>
+						<Image
+							source={require("../assets/images/window-reflactions.png")}
+							style={styles.windowReflactionsImage} />
+						<View
+							style={styles.guyOnChairView}>
+							<Image
+								source={require("../assets/images/pfad-2476.png")}
+								style={styles.pfad2476Image} />
+							<Image
+								source={require("../assets/images/neck.png")}
+								style={styles.neckImage} />
+							<Image
+								source={require("../assets/images/pfad-2479.png")}
+								style={styles.pfad2479Image} />
+							<Image
+								source={require("../assets/images/gruppe-9887.png")}
+								style={styles.gruppe9887Image} />
+							<Image
+								source={require("../assets/images/pfad-2480.png")}
+								style={styles.pfad2480Image} />
+							<View
+								style={styles.shirtView}>
+								<Image
+									source={require("../assets/images/gruppe-9888.png")}
+									style={styles.gruppe9888Image} />
+								<Image
+									source={require("../assets/images/shirt.png")}
+									style={styles.shirtImage} />
+							</View>
+						</View>
+						<Image
+							source={require("../assets/images/guy-standin.png")}
+							style={styles.guyStandinImage} />
+						<Image
+							source={require("../assets/images/girl-and-desk.png")}
+							style={styles.girlAndDeskImage} />
+					</View>
+					<View
+						style={{
+							flex: 1,
+						}} />
+					<Image
+						source={require("../assets/images/noise-layer.png")}
+						style={styles.noiseLayerImage} />
+				</View>
+				<View
+					pointerEvents="box-none"
+					style={{
+						height: 10,
+						marginLeft: 236,
+						marginRight: 235,
+						marginTop: 22,
+						flexDirection: "row",
+						alignItems: "flex-start",
+					}}>
+					<Image
+						source={require("../assets/images/2-2.png")}
+						style={styles.imageImage} />
+					<View
+						style={{
+							flex: 1,
+						}} />
+					<View
+						style={styles.viewTwoView} />
+				</View>
+				<View
+					style={{
+						flex: 1,
+					}} />
+				<Text
+					style={styles.reserviereInDeinerText}>Reserviere in deiner Lieblingsbar ganz einfach und ohne großem Aufwand</Text>
+			</View>
+			<Image
+				source={require("../assets/images/2.png")}
+				style={styles.imageTwoImage} />
+		</View>
+	</LinearGradient>
 }
 
 const styles = StyleSheet.create({

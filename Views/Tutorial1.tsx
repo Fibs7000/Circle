@@ -1,92 +1,73 @@
-//
-//  Welcome6
-//  Project
-//
-//  Created by [Author].
-//  Copyright © 2018 [Company]. All rights reserved.
-//
-
-import { View, Text, StyleSheet, Image } from "react-native"
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native"
 import React from "react"
 import LinearGradient from "react-native-linear-gradient"
+import { NavigationScreenProp, NavigationState, NavigationParams } from "react-navigation";
 
+type props = { navigation: NavigationScreenProp<NavigationState, NavigationParams> };
 
-export default class Tutorial1 extends React.Component {
+export default ({ navigation }: props) => {
 
-	static navigationOptions = ({ navigation }) => {
-	
-		const { params = {} } = navigation.state
-		return {
-				header: null,
-				headerLeft: null,
-				headerRight: null,
-			}
-	}
+	return <LinearGradient
+		start={{
+			x: 0.48,
+			y: 0.12,
+		}}
+		end={{
+			x: 0.5,
+			y: 0.6,
+		}}
+		locations={[0, 1]}
+		colors={["rgb(99, 175, 252)", "rgb(70, 134, 228)"]}
+		style={styles.viewViewLinearGradient}>
+		<View
+			style={styles.viewView}>
+			<Image
+				source={require("../assets/images/top.png")}
+				style={styles.topImage} />
+			<View
+				pointerEvents="box-none"
+				style={{
+					height: 24,
+					marginLeft: 24,
+					marginRight: 36,
+					marginTop: 14,
+					flexDirection: "row",
+					alignItems: "flex-start",
+				}}>
+				<TouchableOpacity
+				onPress={()=> navigation.goBack()}
+				>
 
-	constructor(props) {
-		super(props)
-	}
-
-	componentDidMount() {
-	
-	}
-
-	render() {
-	
-		return <LinearGradient
-				start={{
-					x: 0.48,
-					y: 0.12,
-				}}
-				end={{
-					x: 0.5,
-					y: 0.6,
-				}}
-				locations={[0, 1]}
-				colors={["rgb(99, 175, 252)", "rgb(70, 134, 228)"]}
-				style={styles.viewViewLinearGradient}>
+					<Image
+						source={require("../assets/images/back-icon-2.png")}
+						style={styles.backIconImage} />
+				</TouchableOpacity>
 				<View
-					style={styles.viewView}>
-					<Image
-						source={require("../assets/images/top.png")}
-						style={styles.topImage}/>
-					<View
-						pointerEvents="box-none"
-						style={{
-							height: 24,
-							marginLeft: 24,
-							marginRight: 36,
-							marginTop: 14,
-							flexDirection: "row",
-							alignItems: "flex-start",
-						}}>
-						<Image
-							source={require("../assets/images/back-icon-2.png")}
-							style={styles.backIconImage}/>
-						<View
-							style={{
-								flex: 1,
-							}}/>
-						<Text
-							style={styles.uberspringenText}>Überspringen</Text>
-					</View>
-					<Image
-						source={require("../assets/images/comment-regulation.png")}
-						style={styles.commentRegulationImage}/>
-					<Image
-						source={require("../assets/images/listing-dots.png")}
-						style={styles.listingDotsImage}/>
-					<View
-						style={{
-							flex: 1,
-						}}/>
+					style={{
+						flex: 1,
+					}} />
+				<TouchableOpacity
+				onPress={()=> navigation.navigate("Welcome2")}
+				>
+
 					<Text
-						style={styles.sucheNachTopaktuelText}>Suche nach topaktuellen Events, Restaurants und Bars in deiner Nähe</Text>
-					<View
-						style={styles.indicatorView}/>
-				</View>
-			</LinearGradient>
-	}
+						style={styles.uberspringenText}>Überspringen</Text>
+				</TouchableOpacity>
+			</View>
+			<Image
+				source={require("../assets/images/comment-regulation.png")}
+				style={styles.commentRegulationImage} />
+			<Image
+				source={require("../assets/images/listing-dots.png")}
+				style={styles.listingDotsImage} />
+			<View
+				style={{
+					flex: 1,
+				}} />
+			<Text
+				style={styles.sucheNachTopaktuelText}>Suche nach topaktuellen Events, Restaurants und Bars in deiner Nähe</Text>
+		</View>
+	</LinearGradient>
 }
 
 const styles = StyleSheet.create({

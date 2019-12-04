@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, Image, View } from 'react-native';
+import { StyleSheet, Text, Image, View, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 export default class Welcome2 extends React.Component {
@@ -69,13 +69,21 @@ export default class Welcome2 extends React.Component {
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}>
-                <Text style={styles.registrierenText}>Registrieren</Text>
+                <TouchableOpacity
+                //TODO: IMPL BTN
+                >
+                  <Text style={styles.registrierenText}>Registrieren</Text>
+                </TouchableOpacity>
                 <View
                   style={{
                     flex: 1,
                   }}
                 />
-                <Text style={styles.anmeldenText}>Anmelden</Text>
+                <TouchableOpacity
+                //TODO: IMPL BTN
+                >
+                  <Text style={styles.anmeldenText}>Anmelden</Text>
+                </TouchableOpacity>
               </View>
             </View>
             <View

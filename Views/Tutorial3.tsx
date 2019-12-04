@@ -6,244 +6,233 @@
 //  Copyright © 2018 [Company]. All rights reserved.
 //
 
-import { StyleSheet, Image, View, Text } from "react-native"
+import { StyleSheet, Image, View, Text, TouchableOpacity, StatusBar } from "react-native"
 import LinearGradient from "react-native-linear-gradient"
-import React from "react"
+import React, { constructor } from "react"
+import { NavigationScreenProp, NavigationState, NavigationParams } from "react-navigation";
 
+type props = { navigation: NavigationScreenProp<NavigationState, NavigationParams> };
 
-export default class Tutorial3 extends React.Component {
+export default ({ navigation }: props) => {
 
-	static navigationOptions = ({ navigation }) => {
-	
-		const { params = {} } = navigation.state
-		return {
-				header: null,
-				headerLeft: null,
-				headerRight: null,
-			}
-	}
+	return <LinearGradient
+		start={{
+			x: 0.48,
+			y: 0.12,
+		}}
+		end={{
+			x: 0.5,
+			y: 0.6,
+		}}
+		locations={[0, 1]}
+		colors={["rgb(99, 175, 252)", "rgb(70, 134, 228)"]}
+		style={styles.viewViewLinearGradient}>
 
-	constructor(props) {
-		super(props)
-	}
-
-	componentDidMount() {
-	
-	}
-
-	render() {
-	
-		return <LinearGradient
-				start={{
-					x: 0.48,
-					y: 0.12,
-				}}
-				end={{
-					x: 0.5,
-					y: 0.6,
-				}}
-				locations={[0, 1]}
-				colors={["rgb(99, 175, 252)", "rgb(70, 134, 228)"]}
-				style={styles.viewViewLinearGradient}>
+		<StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
+		<View
+			style={styles.viewView}>
+			<View
+				pointerEvents="box-none"
+				style={{
+					position: "absolute",
+					left: -8,
+					right: 0,
+					top: 0,
+					bottom: 9,
+				}}>
+				<Image
+					source={require("../assets/images/top.png")}
+					style={styles.topImage} />
 				<View
-					style={styles.viewView}>
+					pointerEvents="box-none"
+					style={{
+						height: 24,
+						marginLeft: 32,
+						marginRight: 36,
+						marginTop: 14,
+						flexDirection: "row",
+						alignItems: "flex-start",
+					}}>
+					<TouchableOpacity
+						onPress={() => navigation.goBack()}
+					>
+						<Image
+							source={require("../assets/images/back-icon-2.png")}
+							style={styles.backIconImage} />
+					</TouchableOpacity>
+					<View
+						style={{
+							flex: 1,
+						}} />
+					<TouchableOpacity
+						onPress={() => navigation.navigate("Welcome2")}
+					>
+						<Text
+							style={styles.uberspringenText}>Überspringen</Text>
+					</TouchableOpacity>
+				</View>
+				<View
+					style={styles.relaxView}>
+					<Image
+						source={require("../assets/images/background.png")}
+						style={styles.backgroundImage} />
+					<Image
+						source={require("../assets/images/programs.png")}
+						style={styles.programsImage} />
+					<View
+						style={styles.laptopView}>
+						<View
+							pointerEvents="box-none"
+							style={{
+								position: "absolute",
+								left: -0,
+								right: 3,
+								top: -0,
+								height: 118,
+								alignItems: "flex-end",
+							}}>
+							<Image
+								source={require("../assets/images/front.png")}
+								style={styles.frontImage} />
+							<Image
+								source={require("../assets/images/table.png")}
+								style={styles.tableImage} />
+						</View>
+						<Image
+							source={require("../assets/images/bottom.png")}
+							style={styles.bottomImage} />
+						<Image
+							source={require("../assets/images/back.png")}
+							style={styles.backImage} />
+					</View>
+					<View
+						style={styles.messageView}>
+						<View
+							pointerEvents="box-none"
+							style={{
+								position: "absolute",
+								left: 0,
+								top: 0,
+								bottom: 0,
+								justifyContent: "center",
+							}}>
+							<Image
+								source={require("../assets/images/line-4.png")}
+								style={styles.lineImage} />
+						</View>
+						<Image
+							source={require("../assets/images/rocket.png")}
+							style={styles.rocketImage} />
+					</View>
 					<View
 						pointerEvents="box-none"
 						style={{
 							position: "absolute",
-							left: -8,
-							right: 0,
-							top: 0,
-							bottom: 9,
+							left: 18,
+							width: 237,
+							top: 19,
+							height: 217,
+							alignItems: "flex-start",
 						}}>
-						<Image
-							source={require("../assets/images/top.png")}
-							style={styles.topImage}/>
 						<View
-							pointerEvents="box-none"
-							style={{
-								height: 24,
-								marginLeft: 32,
-								marginRight: 36,
-								marginTop: 14,
-								flexDirection: "row",
-								alignItems: "flex-start",
-							}}>
-							<Image
-								source={require("../assets/images/back-icon-2.png")}
-								style={styles.backIconImage}/>
-							<View
-								style={{
-									flex: 1,
-								}}/>
-							<Text
-								style={styles.uberspringenText}>Überspringen</Text>
-						</View>
-						<View
-							style={styles.relaxView}>
-							<Image
-								source={require("../assets/images/background.png")}
-								style={styles.backgroundImage}/>
-							<Image
-								source={require("../assets/images/programs.png")}
-								style={styles.programsImage}/>
-							<View
-								style={styles.laptopView}>
-								<View
-									pointerEvents="box-none"
-									style={{
-										position: "absolute",
-										left: -0,
-										right: 3,
-										top: -0,
-										height: 118,
-										alignItems: "flex-end",
-									}}>
-									<Image
-										source={require("../assets/images/front.png")}
-										style={styles.frontImage}/>
-									<Image
-										source={require("../assets/images/table.png")}
-										style={styles.tableImage}/>
-								</View>
-								<Image
-									source={require("../assets/images/bottom.png")}
-									style={styles.bottomImage}/>
-								<Image
-									source={require("../assets/images/back.png")}
-									style={styles.backImage}/>
-							</View>
-							<View
-								style={styles.messageView}>
-								<View
-									pointerEvents="box-none"
-									style={{
-										position: "absolute",
-										left: 0,
-										top: 0,
-										bottom: 0,
-										justifyContent: "center",
-									}}>
-									<Image
-										source={require("../assets/images/line-4.png")}
-										style={styles.lineImage}/>
-								</View>
-								<Image
-									source={require("../assets/images/rocket.png")}
-									style={styles.rocketImage}/>
-							</View>
+							style={styles.clockView}>
 							<View
 								pointerEvents="box-none"
 								style={{
 									position: "absolute",
-									left: 18,
-									width: 237,
-									top: 19,
-									height: 217,
-									alignItems: "flex-start",
+									left: 0,
+									right: 0,
+									top: 0,
+									bottom: 0,
+									justifyContent: "center",
 								}}>
-								<View
-									style={styles.clockView}>
-									<View
-										pointerEvents="box-none"
-										style={{
-											position: "absolute",
-											left: 0,
-											right: 0,
-											top: 0,
-											bottom: 0,
-											justifyContent: "center",
-										}}>
-										<Image
-											source={require("../assets/images/ellipse-4.png")}
-											style={styles.ellipse4Image}/>
-									</View>
-									<Image
-										source={require("../assets/images/shape-8.png")}
-										style={styles.shape8Image}/>
-								</View>
 								<Image
-									source={require("../assets/images/person.png")}
-									style={styles.personImage}/>
+									source={require("../assets/images/ellipse-4.png")}
+									style={styles.ellipse4Image} />
 							</View>
-							<View
-								style={styles.plantView}>
-								<View
-									style={styles.potView}>
-									<Image
-										source={require("../assets/images/shadow.png")}
-										style={styles.shadowImage}/>
-									<View
-										pointerEvents="box-none"
-										style={{
-											position: "absolute",
-											left: 0,
-											right: 0,
-											top: 0,
-											bottom: 0,
-											justifyContent: "center",
-										}}>
-										<Image
-											source={require("../assets/images/ellipse-2.png")}
-											style={styles.ellipse2Image}/>
-									</View>
-									<Image
-										source={require("../assets/images/ellipse-1.png")}
-										style={styles.ellipse1Image}/>
-								</View>
-								<View
-									style={styles.leavesView}>
-									<Image
-										source={require("../assets/images/shape-2-3.png")}
-										style={styles.shape2Image}/>
-									<Image
-										source={require("../assets/images/shape-2.png")}
-										style={styles.shape2TwoImage}/>
-									<Image
-										source={require("../assets/images/shape-2-2.png")}
-										style={styles.shape2ThreeImage}/>
-								</View>
-							</View>
+							<Image
+								source={require("../assets/images/shape-8.png")}
+								style={styles.shape8Image} />
 						</View>
-						<View
-							pointerEvents="box-none"
-							style={{
-								height: 10,
-								marginLeft: 161,
-								marginRight: 152,
-								marginTop: 74,
-								flexDirection: "row",
-								alignItems: "flex-start",
-							}}>
-							<View
-								style={styles.viewTwoView}/>
-							<View
-								style={{
-									flex: 1,
-								}}/>
-							<View
-								style={styles.viewThreeView}/>
-						</View>
-						<View
-							style={{
-								flex: 1,
-							}}/>
-						<Text
-							style={styles.lehneDichZuruckUnText}>Lehne dich zurück und warte auf die Bestätigung deiner Reservation</Text>
-						<View
-							style={styles.gruppe9880View}>
-							<Text
-								style={styles.losGehtsText}>Los gehts</Text>
-						</View>
-						<View
-							style={styles.indicatorView}/>
+						<Image
+							source={require("../assets/images/person.png")}
+							style={styles.personImage} />
 					</View>
-					<Image
-						source={require("../assets/images/2-2.png")}
-						style={styles.imageImage}/>
+					<View
+						style={styles.plantView}>
+						<View
+							style={styles.potView}>
+							<Image
+								source={require("../assets/images/shadow.png")}
+								style={styles.shadowImage} />
+							<View
+								pointerEvents="box-none"
+								style={{
+									position: "absolute",
+									left: 0,
+									right: 0,
+									top: 0,
+									bottom: 0,
+									justifyContent: "center",
+								}}>
+								<Image
+									source={require("../assets/images/ellipse-2.png")}
+									style={styles.ellipse2Image} />
+							</View>
+							<Image
+								source={require("../assets/images/ellipse-1.png")}
+								style={styles.ellipse1Image} />
+						</View>
+						<View
+							style={styles.leavesView}>
+							<Image
+								source={require("../assets/images/shape-2-3.png")}
+								style={styles.shape2Image} />
+							<Image
+								source={require("../assets/images/shape-2.png")}
+								style={styles.shape2TwoImage} />
+							<Image
+								source={require("../assets/images/shape-2-2.png")}
+								style={styles.shape2ThreeImage} />
+						</View>
+					</View>
 				</View>
-			</LinearGradient>
-	}
+				<View
+					pointerEvents="box-none"
+					style={{
+						height: 10,
+						marginLeft: 161,
+						marginRight: 152,
+						marginTop: 74,
+						flexDirection: "row",
+						alignItems: "flex-start",
+					}}>
+					<View
+						style={styles.viewTwoView} />
+					<View
+						style={{
+							flex: 1,
+						}} />
+					<View
+						style={styles.viewThreeView} />
+				</View>
+				<View
+					style={{
+						flex: 1,
+					}} />
+				<Text
+					style={styles.lehneDichZuruckUnText}>Lehne dich zurück und warte auf die Bestätigung deiner Reservation</Text>
+				<TouchableOpacity onPress={() => navigation.navigate("Welcome2")}
+					style={styles.gruppe9880View}>
+					<Text
+						style={styles.losGehtsText}>Los gehts</Text>
+				</TouchableOpacity>
+			</View>
+			<Image
+				source={require("../assets/images/2-2.png")}
+				style={styles.imageImage} />
+		</View>
+	</LinearGradient>
 }
 
 const styles = StyleSheet.create({
