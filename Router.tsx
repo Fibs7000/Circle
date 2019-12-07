@@ -1,5 +1,5 @@
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
-import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
+import {createMaterialTopTabNavigator, createBottomTabNavigator} from 'react-navigation-tabs';
 import moduleName, { createStackNavigator } from 'react-navigation-stack';
 
 import Tutorial1 from "./Views/Tutorial1";
@@ -8,10 +8,15 @@ import Tutorial3 from "./Views/Tutorial3";
 import Welcome1 from "./Views/Welcome1";
 import Welcome2 from "./Views/Welcome2";
 import Register from "./Views/Register";
+import MainView from "./Views/MainView";
+import ProfileView from "./Views/ProfileView";
+import ExploreView from "./Views/ExploreView";
+import ChatView from "./Views/ChatView";
 import Login from "./Views/Login";
 import React from 'react'
 
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
+import IconM from 'react-native-vector-icons/MaterialIcons';
 
 
 const tutorial = createMaterialTopTabNavigator({
@@ -24,6 +29,39 @@ const tutorial = createMaterialTopTabNavigator({
     
 })
 
+const home = createBottomTabNavigator({
+    MainView: {
+        screen: MainView,
+        navigationOptions:{
+            tabBarIcon: ({tintColor}) => (<IconM name="home" size={30} color={tintColor} />)
+        }
+    },
+    ChatView: {
+        screen: ChatView,
+        navigationOptions:{
+            tabBarIcon: ({tintColor}) => (<Image source={require("./assets/images/message-circle-2.png")} style={{tintColor}} />)
+        }
+    },
+    ExploreView: {
+        screen: ExploreView,
+        navigationOptions:{
+            tabBarIcon: ({tintColor}) => (<Image source={require("./assets/images/neaby-2.png")} style={{tintColor}} />)
+        }
+    },
+    ProfileView:{
+        screen: ProfileView,
+        navigationOptions:{
+            tabBarIcon: ({tintColor}) => (<IconM name="person" size={30} color={tintColor} />)
+        }
+    }
+}, {
+    tabBarOptions:{
+        showIcon:true,
+        showLabel: false
+    },
+    initialRouteName: "ProfileView"
+});
+
 const authStack = createStackNavigator({
     Welcome1,
     tutorial,
@@ -34,4 +72,4 @@ const authStack = createStackNavigator({
     headerMode: "none"
 });
 
-export default createAppContainer(authStack);
+export default createAppContainer(home);

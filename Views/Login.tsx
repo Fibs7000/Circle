@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { Input, Button } from 'react-native-elements'
+import { NavigationScreenProp, NavigationState, NavigationParams } from 'react-navigation';
 
-const Login = () => {
+type props = { navigation: NavigationScreenProp<NavigationState, NavigationParams> };
+
+const Login = ({navigation}:props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     return (
