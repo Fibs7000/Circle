@@ -1,15 +1,30 @@
 
-import { Text, Image, StyleSheet, View, KeyboardAvoidingView } from "react-native"
+import { Text, Image, StyleSheet, View, KeyboardAvoidingView, Modal, ActivityIndicator } from "react-native"
 import React, { useState } from "react"
-import { NavigationScreenProp, NavigationState, NavigationParams } from "react-navigation";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Input } from 'react-native-elements';
-import Icon from 'react-native-vector-icons';
+import Icon from 'react-native-vector-icons/EvilIcons';
+import { NavigationScreenProp, NavigationState, NavigationParams } from "react-navigation";
+import { AppState } from "../redux/store";
+import { connect } from "react-redux";
+import { signUp as signUpAction } from "../redux/auth";
+import Animated from "react-native-reanimated";
 
+const mapStateToProps = (state: AppState) => ({
+	authError: state.auth.errors.signup,
+	isSignedIn: !!state.auth.user,
+	loading: state.auth.pending
+})
 
-type props = { navigation: NavigationScreenProp<NavigationState, NavigationParams> };
+const mapDispatchToProps = {
+	signUp: signUpAction
+}
 
-export default ({ navigation }: props) => {
+type props = { navigation: NavigationScreenProp<NavigationState, NavigationParams> } & ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
+
+const enhance = connect(mapStateToProps, mapDispatchToProps);
+
+export default enhance(({ navigation, authError, signUp, isSignedIn, loading }: props) => {
 	const [name, setName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
@@ -18,8 +33,15 @@ export default ({ navigation }: props) => {
 	const [telNr, setTelNr] = useState("");
 	const passwordsEqual = password == reTypedPassword;
 	const error = passwordsEqual ? "" : "Passwörter sind nicht gleich!!";
+	isSignedIn && navigation.navigate("home");
+	const canSignUp = name.length > 1 && lastName.length > 1 && email.length > 4 && password.length > 7 && telNr.length > 5;
 	return <>
-		<KeyboardAvoidingView enabled behavior="padding"
+		<Modal visible={loading} transparent presentationStyle="overFullScreen">
+			<View style={{ backgroundColor: "#fffb", flex: 1, justifyContent: "center", alignItems: "center" }}>
+				<ActivityIndicator color="#0785F2" size={100}/>
+			</View>
+		</Modal>
+		<KeyboardAvoidingView enabled behavior="height"
 			style={styles.viewView}>
 			<Text
 				style={styles.registrierenText}>Registrieren</Text>
@@ -30,27 +52,35 @@ export default ({ navigation }: props) => {
 				style={styles.circleText}>CIRCLE</Text>
 
 			<View style={{ alignItems: "stretch", marginHorizontal: "5%", marginBottom: 20 }}>
-				<Input onChangeText={text => setName(text)} value={name} placeholder="Vorname" />
-				<Input onChangeText={text => setLastName(text)} value={lastName} placeholder="Nachname" />
-				<Input onChangeText={text => setEmail(text)} value={email} placeholder="Email" />
-				<Input onChangeText={text => setPassword(text)} value={password} placeholder="Passwort" />
-				<Input onChangeText={text => setReTypedPassword(text)} value={reTypedPassword} errorMessage={error} placeholder="Passwort wiederholen" />
-				<Input onChangeText={text => setTelNr(text)} value={telNr} placeholder="Telefonnummer" />
+				<Input onChangeText={text => setName(text)} value={name} placeholder="Vorname" autoCapitalize="words"/>
+				<Input onChangeText={text => setLastName(text)} value={lastName} placeholder="Nachname"/>
+				<Input onChangeText={text => setEmail(text)} value={email} placeholder="Email" autoCapitalize="none" autoCompleteType="email" />
+				<Input onChangeText={text => setPassword(text)} value={password} placeholder="Passwort" autoCompleteType="password" autoCapitalize="none" secureTextEntry={true} />
+				<Input onChangeText={text => setReTypedPassword(text)} value={reTypedPassword} errorMessage={error} autoCapitalize="none" autoCompleteType="password" placeholder="Passwort wiederholen" secureTextEntry={true} />
+				<Input onChangeText={text => setTelNr(text)} value={telNr} placeholder="Telefonnummer" keyboardType="name-phone-pad" autoCompleteType="tel"/>
+				{(!!authError) && <Text style={{ color: "#a00" }}>{authError}</Text>}
 			</View>
-			<TouchableOpacity //TODO: 
+			<TouchableOpacity onPress={() => {
+				if (error)
+					alert("Passwörter sind nicht ident!!");
+				else if (!canSignUp)
+					alert("Bitte alle Felder ausfüllen!");
+				else
+					signUp(email, password, name, lastName, telNr);
+			}}
 				style={styles.rounButton}>
 				<Text
 					style={styles.roundButtonText}>Weiter</Text>
 			</TouchableOpacity>
 		</KeyboardAvoidingView>
 	</>
-}
+})
 
 const styles = StyleSheet.create({
 	viewView: {
 		backgroundColor: "rgb(250, 250, 250)",
 		flex: 1,
-		justifyContent: "center", 
+		justifyContent: "center",
 		alignItems: "stretch",
 	},
 	registrierenText: {
@@ -196,7 +226,7 @@ const styles = StyleSheet.create({
 	rounButton: {
 		backgroundColor: "rgb(7, 133, 242)",
 		borderRadius: 17.5,
-		width: 255,
+		width: "70%",
 		height: 35,
 		alignSelf: "center",
 		justifyContent: "center",

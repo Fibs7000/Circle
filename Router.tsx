@@ -11,9 +11,11 @@ import Register from "./Views/Register";
 import MainView from "./Views/MainView";
 import ProfileView from "./Views/ProfileView";
 import ExploreView from "./Views/ExploreView";
+import AuthLoading from "./Views/AuthLoading";
 import ChatView from "./Views/ChatView";
 import Login from "./Views/Login";
 import React from 'react'
+import firebase from "firebase";
 
 import { View, Image } from 'react-native';
 import IconM from 'react-native-vector-icons/MaterialIcons';
@@ -59,7 +61,6 @@ const home = createBottomTabNavigator({
         showIcon:true,
         showLabel: false
     },
-    initialRouteName: "ProfileView"
 });
 
 const authStack = createStackNavigator({
@@ -72,4 +73,12 @@ const authStack = createStackNavigator({
     headerMode: "none"
 });
 
-export default createAppContainer(home);
+const root = createSwitchNavigator({
+    auth: authStack,
+    home,
+    AuthLoading
+},{
+    initialRouteName: "AuthLoading"
+})
+
+export default createAppContainer(root);

@@ -4,15 +4,31 @@ import { NavigationScreenProp, NavigationState, NavigationParams } from 'react-n
 import { Button, Avatar, Icon } from 'react-native-elements';
 import IconText from './IconText';
 import { ScrollView } from 'react-native-gesture-handler';
+import { AppState } from "../redux/store";
+import { connect } from "react-redux";
+import { signOut } from '../redux/auth';
 
-type props = { navigation: NavigationScreenProp<NavigationState, NavigationParams> };
+const mapStateToProps = (state: AppState) => ({
+	user: state.auth.user
+})
 
-const ProfileView = () => {
+const mapDispatchToProps = {
+	dispatchLogOut: signOut
+}
+
+type props = { navigation: NavigationScreenProp<NavigationState, NavigationParams> } & ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
+
+const enhance = connect(mapStateToProps, mapDispatchToProps);
+const ProfileView = ({ user, navigation, dispatchLogOut }: props) => {
+	if (!user) {
+		navigation.navigate("auth");
+		return null;
+	}
 	const pbImage = require("../assets/images/elizeu-dias-520676-unsplash-2.png");
-	const username = "asdsad";
-	const name = "Johannes Rauch";
-	const email = "johannes.rauch@gamail.at";
-	const telnr = "06602320242";
+	const username = "notImplemented";
+	const name = user.firstName + " " + user.name;
+	const email = user.email;
+	const telnr = user.telNr;
 	const [ghostMode, setGhostMode] = useState(false); //TODO: implement functionality
 	const [promoter, setPromoter] = useState(false);
 	return (
@@ -58,7 +74,7 @@ const ProfileView = () => {
 			<View style={[styles.container]}>
 				<Button onPress={() => null} //TODO: REset password
 					type="clear" title="Passwort ändern" icon={{ name: "lock", type: "evilicon", color: "#0785F2" }} titleStyle={{ color: "#0785F2" }} />
-				<Button onPress={() => null} //TODO: Logout
+				<Button onPress={() => dispatchLogOut()} //TODO: Logout
 					type="clear" title="Abmelden" titleStyle={{ color: "#0785F2" }} />
 			</View>
 		</ScrollView>
@@ -79,4 +95,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default ProfileView
+export default enhance(ProfileView)

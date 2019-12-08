@@ -10,13 +10,13 @@ export default ({updateSearch, value}) => {
             borderBottomColor: "#999",
             borderBottomWidth: 0.5
         }}>
-            <SearchBar placeholder="location" style={{
+            <SearchBar placeholder="Standort" style={{
                 flex: 1
-            }} onChangeText={t => updateSearch(t)} value={value} lightTheme round containerStyle={{
+            }} inputStyle={{fontSize: 30}} onChangeText={t => updateSearch(t)} value={value} lightTheme round containerStyle={{
                 backgroundColor: "transparent"
             }} inputContainerStyle={{
                 backgroundColor: "transparent"
-            }} platform="ios" searchIcon={<Icon name="location" size={20} />} />
+            }} platform="ios" searchIcon={<Icon name="location" size={30} color="#0785F2"/>} />
         </View>
     );
 }
