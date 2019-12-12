@@ -19,7 +19,7 @@ const ButtonSlider = ({data, onChange, height=null}: {data: DataType[], onChange
 const Switch = ({icon, text, onChange}:{icon: ReactElement, text: string, onChange: (value: boolean)=>void })=>{
     const [on, setOn] = useState(false);
     return (
-        <TouchableOpacity onPress={()=> {setOn(!on); onChange(!on)}} style={{height: 50, borderRadius: 100, backgroundColor: on ? "#0785F2" : "#DEE0E3", flexDirection: "row", paddingHorizontal: 30, alignItems: "center"}}>
+        <TouchableOpacity onPress={()=> {setOn(!on); onChange(!on)}} style={{height: 50, borderRadius: 100,marginHorizontal: 10, backgroundColor: on ? "#0785F2" : "#DEE0E3", flexDirection: "row", paddingHorizontal: 30, alignItems: "center"}}>
             {icon}
             <Text style={{color: on? "white": "black", marginLeft: 10}}>{text}</Text>
         </TouchableOpacity>
