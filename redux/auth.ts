@@ -1,46 +1,5 @@
 import {AppState} from './store';
 import {User, AuthService} from '../services/AuthService';
-function createTypeName(name: string, prefix?: string) {
-  const replaceRegex = /([A-Z])/g;
-  const typeName = name
-    .replace(replaceRegex, '_$1')
-    .toUpperCase()
-    .replace(/^_/, '');
-  const typeVal = prefix
-    ? prefix + '/' + typeName.toLowerCase()
-    : typeName.toLowerCase();
-  return {typeName, typeVal};
-}
-type Parameters<T> = T extends (... args: infer T) => any ? T : never; 
-
-function createActions<U, T extends {[key: string]:({...param}: U)=> any}>(
-  actionsSpec: T,
-  prefix?: string,
-) {
-  var r = {};
-  var t = {};
-
-  for (const [key, action] of Object.entries(actionsSpec)) {
-    const {typeName: actionType} = createTypeName(key, prefix);
-    r[key] = (...params: any) => ({type: actionType, payload: params});
-    t[key] = actionType;
-  }
-  return {
-    actions: r as {[key in keyof typeof actionsSpec]:(...args: Parameters<typeof actionsSpec[key]>) =>{type: string, payload: (typeof args[0]) }},
-    types: t as {[key in keyof typeof actionsSpec]: string},
-  };
-}
-
-const {actions, types} = createActions({
-  signInRequest: ()=>null,
-  signUpRequest: ()=>null,
-  signInError: ({error: string})=>null,
-  signUpError: ({error: string})=>null,
-  signInSuccess: ({user: User, error: string})=>null,
-  signOutRequest: ()=>null
-}, "auth");
-
-actions.signInSuccess
 
 export const START_SIGN_IN = 'START_SIGN_IN';
 export const SIGNED_IN = 'SIGNED_IN';

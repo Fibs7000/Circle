@@ -14,6 +14,7 @@
     "@types/react-native": "^0.60.23",
     "firebase": "^7.5.2",
     "react": "16.9.0",
+    "react-devtools": "^4.3.0",
     "react-native": "0.61.5",
     "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "^1.5.2",

@@ -78,7 +78,7 @@ const root = createSwitchNavigator({
     home,
     AuthLoading
 },{
-    initialRouteName: "home"
+    initialRouteName: "AuthLoading"
 })
 
 export default createAppContainer(root);

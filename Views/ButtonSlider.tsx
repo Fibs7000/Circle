@@ -2,7 +2,8 @@ import React, { useState, ReactElement } from 'react'
 import { View, Text } from 'react-native'
 import { ScrollView, FlatList, TouchableOpacity } from 'react-native-gesture-handler'
 import { Button, IconNode } from 'react-native-elements'
-export type DataType = {title: string, icon: ReactElement};
+import Icon from 'react-native-vector-icons/SimpleLineIcons'
+export type DataType = {title: string, icon: ReactElement, type: string, iconType: typeof Icon};
 
 const ButtonSlider = ({data, onChange, height=null}: {data: DataType[], onChange: (value: boolean, index: number)=> void, height?: number}) => {
     return (
