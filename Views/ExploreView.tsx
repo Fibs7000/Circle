@@ -152,7 +152,7 @@ type FeatureType = {
     coordinates: [number, number]
   }
 }
-//test9
+//test10
 var icons = {};
 
 var promises: Promise<{ source: any, title: string }>[] = [];
