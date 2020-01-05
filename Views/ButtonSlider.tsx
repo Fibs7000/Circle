@@ -7,7 +7,7 @@ export type DataType = {title: string, icon: ReactElement, type: string, iconTyp
 
 const ButtonSlider = ({data, onChange, height=null}: {data: DataType[], onChange: (value: boolean, index: number)=> void, height?: number}) => {
     return (
-        <View style={[height&&{height}, {justifyContent: "center"}]}>
+        <View style={[height&&{height}, {justifyContent: "center", marginTop: 70}]}>
             <FlatList 
         horizontal 
         renderItem={({item, index})=> <Switch key={index} text={item.title} icon={item.icon} onChange={v=> onChange(v, index)} />} 

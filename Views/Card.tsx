@@ -3,6 +3,7 @@ import { View, Text, ImageBackground, StyleSheet } from 'react-native'
 import { Icon, Button, Avatar } from 'react-native-elements'
 
 function getWrittenDate(date: Date) {
+    date = new Date(date);
     var res = "";
     switch (date.getDay()) {
         case 1:
@@ -30,14 +31,14 @@ function getWrittenDate(date: Date) {
         default:
             break;
     }
-    res += date.getHours() + ":";
-    res += date.getMinutes();
+    res += ("00" + date.getHours().toString()).slice(-2) + ":";
+    res += ("00" + date.getMinutes().toString()).slice(-2);
     return res;
 }
 
 const Card = ({ eventName, locationName, peopleCount, locationSpec, rating, mainImage, icon, date }: { eventName: string, locationName: string, peopleCount: number, locationSpec: string, rating: number, mainImage: object, icon: object, date: Date }) => {
     return (
-        <View style={{borderBottomColor: "#999", borderBottomWidth: 0.5}}>
+        <View>
             <View style={{ height: 80, flexDirection: "row", alignItems: "center", paddingHorizontal: 10 }}>
                 <Avatar source={icon} containerStyle={styles.shadow} size={50} rounded />
                 <Text style={{ marginLeft: 20, fontSize: 20, flex: 1 }}>{eventName}</Text>

@@ -5,9 +5,13 @@ import ButtonSlider from './ButtonSlider'
 import { SearchTypes } from './MainView'
 import MapboxGL, { SymbolLayerStyle } from '@react-native-mapbox-gl/maps'
 import { Icon } from 'react-native-elements'
-import TestIcon from "../assets/images/-icons---3-contact.png";
-import firebase from 'firebase'
+import RestaurantIcon from "../assets/images/RestaurantsMapImage.png";
+import BarsIcon from "../assets/images/BarMapImage.png";
+import ClubsIcon from "../assets/images/ClubsMapImage.png";
+import EventsIcon from "../assets/images/EventsMapImage.png";
+import firebase, { firestore } from 'firebase'
 import 'firebase/firestore'
+import { EventDAO, createEventDAO } from '../entities'
 // const Types = SearchTypes.map(v=> v.title);
 // [[47.07075209, 15.46578839],
 // [47.08634322, 15.38421093],
@@ -112,7 +116,43 @@ import 'firebase/firestore'
 // ].map(v=> ({type: Types[Math.floor(Math.random()*4)%4], geo: new firebase.firestore.GeoPoint(v[0], v[1])}))
 // .map(v=> firebase.firestore().collection('events').add(v));
 MapboxGL.setAccessToken("pk.eyJ1IjoiZmliczcwMDAiLCJhIjoiY2p4MXplcGExMDE0bDQ0cXFuOXVnM2dlZSJ9.D0HbtL6Bbvd77XRzD-QmlQ");
+// async function getAddress(geo: firestore.GeoPoint){
+//   const reqUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${geo.latitude},${geo.longitude}&key=AIzaSyBlcApC_sep8rr3_Hivir8mSb_bBe8PngE`;
+//   // console.log(reqUrl)
+//   const res = await fetch(reqUrl);
+//   const json = await res.json();
+//   // console.log(json);
+//   if(json.results && json.results.length>0){
+//     return json.results[0].formatted_address;
+//   }
+  
+//   console.log("------------No Address-----------")
+//   return "";
+// }
 
+// async function Update(){
+//   const col = await firebase.firestore().collection('events').get();
+  
+//   console.log("------------No Address line in "+col.size+" files-----------");
+//   // return;
+//   const mapsPromises = col.docs.map(async (d, i)=> {
+//     // var geo: firestore.GeoPoint = d.get('geo');
+//     // if(geo._lat){
+//     //   geo = new firestore.GeoPoint(geo._lat, geo._long);
+//     // }
+//     // const address = await getAddress(geo);
+//     return {...d.data(), date: Date.now()}
+//     return createEventDAO(d.id, d.get('type'), geo,
+//   address, new Date(Date.now() - i*100000), "Location"+i, "EventName"+i, Math.floor(Math.random() * 20), Math.floor(Math.random() * 50)/10);
+//   })
+//   const maps = await Promise.all(mapsPromises);
+//   // console.log(maps);
+//   for (const event of maps) {
+//    await firebase.firestore().collection('events').doc(event.id).set(event);
+//   }
+//   console.log("------------finished setting all-----------")
+// }
+// Update();
 const toRadians = (val: number) => val * Math.PI / 180;
 
 function calcDistance(lat1, lon1, lat2, lon2) {
@@ -152,15 +192,36 @@ type FeatureType = {
     coordinates: [number, number]
   }
 }
-//test11
-var icons = {};
 
-var promises: Promise<{ source: any, title: string }>[] = [];
-
-for (const item of SearchTypes) {
-  promises.push(item.iconType.getImageSource(item.type, 80, 'black').then(v => ({ source: v, title: item.title })));
+function createFeature(id: string, icon: string, coordinates: [number, number]): FeatureType{
+  return {
+    type: "Feature",
+    id,
+    properties:{ 
+      icon
+    },
+    geometry:{
+      coordinates,
+      type: "Point"
+    }
+  }
 }
-Promise.all(promises).then(v => v.forEach(x => icons[x.title] = x.source));
+
+var icons = {
+  Events: EventsIcon,
+  Bars: BarsIcon,
+  Restaurants: RestaurantIcon,
+  Clubs: ClubsIcon
+}
+
+// var icons = {};
+
+// var promises: Promise<{ source: any, title: string }>[] = [];
+
+// for (const item of SearchTypes) {
+//   promises.push(item.iconType.getImageSource(item.type, 80, 'black').then(v => ({ source: v, title: item.title })));
+// }
+// Promise.all(promises).then(v => v.forEach(x => icons[x.title] = x.source));
 
 const ExploreView = () => {
   const db = firebase.firestore().collection('events');
@@ -213,7 +274,7 @@ const ExploreView = () => {
 
   const getFirebaseData = async (fv = null) => {
     const [[lon1, lat1], [lon2, lat2]] = (await map.current.getVisibleBounds()) as any as number[][]
-    if (lastQuery) {
+    if (!fv && lastQuery) {
       const [[fblon1, fblat1], [fblon2, fblat2]] = lastQuery;
       if (lat1 <= fblat1 && lon1 <= fblon1 && lat2 >= fblat2 && lon2 >= fblon2) return;
     }
@@ -227,12 +288,7 @@ const ExploreView = () => {
       query = query.where('type', 'in', f);
     }
     const sn = await query.get();
-    const features = sn.docs.map((e): FeatureType => ({
-      id: e.id, geometry: {
-        coordinates: [e.get('geo').longitude, e.get('geo').latitude],
-        type: "Point"
-      }, properties: { icon: e.get('type') }, type: "Feature"
-    }));
+    const features = sn.docs.map((e): FeatureType => createFeature(e.id, e.get('type'), [e.get('geo').longitude, e.get('geo').latitude]));
     // console.log(features);
     setPoints1(features.filter(v=> v.properties.icon == SearchTypes[0].title));
     setPoints2(features.filter(v=> v.properties.icon == SearchTypes[1].title));
