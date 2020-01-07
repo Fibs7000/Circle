@@ -8,7 +8,9 @@ export type EventDAO = {
     locationName: string,
     eventName: string,
     peopleThereCount: number,
-    rating: number
+    rating: number,
+    description: string,
+    pictures: string[]
 }
 
 export function createEventDAO(id: string,

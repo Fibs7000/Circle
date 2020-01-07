@@ -5,10 +5,10 @@ import IconSLI from 'react-native-vector-icons/SimpleLineIcons'
 import IconMatC from 'react-native-vector-icons/MaterialCommunityIcons'
 import IconMat from 'react-native-vector-icons/MaterialIcons'
 import IconEnt from 'react-native-vector-icons/Entypo'
-import {SearchBar} from './Searchbar';
+import { SearchBar } from './Searchbar';
 import ButtonSlider, { DataType } from './ButtonSlider';
 import Card from "./Card";
-import { ScrollView, FlatList } from 'react-native-gesture-handler';
+import { ScrollView, FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import Restaurant from '../assets/images/restaurant.png';
 import Bars from '../assets/images/bars.png';
 import Events from '../assets/images/event.png';
@@ -42,17 +42,23 @@ const { imageStyle } = StyleSheet.create({
 		width: 20
 	}
 })
-function renderCard({ item, index }: { item: EventDAO, index: number }) {
-	return <Card key={item.id}
-		mainImage={require("../assets/images/bild-12-4.png")}
-		eventName={item.eventName}
-		locationName={item.locationName}
-		locationSpec={item.addressText}
-		peopleCount={item.peopleThereCount}
-		date={item.date}
-		rating={item.rating}
-		icon={require("../assets/images/avatar-2.png")}
-	/>
+function renderCard(onItemClick: (item: EventDAO, index: number) => void) {
+	return ({ item, index }: { item: EventDAO, index: number }) => {
+		return (
+			<TouchableOpacity onPress={() => onItemClick(item, index)}>
+				<Card key={item.id}
+					mainImage={require("../assets/images/bild-12-4.png")}
+					eventName={item.eventName}
+					locationName={item.locationName}
+					locationSpec={item.addressText}
+					peopleCount={item.peopleThereCount}
+					date={item.date}
+					rating={item.rating}
+					icon={require("../assets/images/avatar-2.png")}
+				/>
+			</TouchableOpacity>
+		)
+	}
 }
 export const SearchTypes: DataType[] = [
 	{ title: "Events", icon: <Image source={Events} style={imageStyle} />, type: "fire", iconType: IconSLI },
@@ -66,6 +72,7 @@ import { AppState } from "../redux/store";
 import { setPlaceAction } from "../redux/placeReducer";
 import { NavigationScreenProp, NavigationState, NavigationParams } from "react-navigation";
 import { connect } from "react-redux";
+import { Seperator } from './Seperator'
 
 const mapStateToProps = (state: AppState) => ({
 	place: state.place
@@ -75,11 +82,12 @@ const mapDispatchToProps = {
 	setPlace: setPlaceAction
 }
 
-type props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
+type props = { navigation: NavigationScreenProp<NavigationState, NavigationParams> } & ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
 
 const enhance = connect(mapStateToProps, mapDispatchToProps);
 
-const MainView = ({place, setPlace}: props) => {
+
+const MainView = ({ navigation, place, setPlace }: props) => {
 	const db = firebase.firestore().collection('events');
 	const [search, updateSearch] = useState(""); //TODO: implement
 	const [cardData, setCardData] = useState<EventDAO[]>([]);
@@ -133,9 +141,9 @@ const MainView = ({place, setPlace}: props) => {
 			/>
 			<FlatList
 				data={cardData}
-				renderItem={renderCard}
+				renderItem={renderCard((item, index) => navigation.navigate("details", { item }))}
 				showsVerticalScrollIndicator={false}
-				ItemSeparatorComponent={() => <View style={{ borderBottomColor: "#999", borderBottomWidth: 0.5 }} />}
+				ItemSeparatorComponent={() => <Seperator></Seperator>}
 				onEndReached={onEndReached}
 				keyExtractor={(item, index) => item.id}
 			// onEndReachedThreshold={5} 

@@ -20,6 +20,7 @@ import firebase from "firebase";
 import { View, Image } from 'react-native';
 import IconM from 'react-native-vector-icons/MaterialIcons';
 import PeerToPeerChatView from './Views/PeerToPeerChatView';
+import DetailView from './Views/DetailView';
 
 
 const tutorial = createMaterialTopTabNavigator({
@@ -76,7 +77,8 @@ const authStack = createStackNavigator({
 
 const main = createStackNavigator({
     home,
-    chat: PeerToPeerChatView
+    chat: PeerToPeerChatView,
+    details: DetailView
 },{
     headerMode: "none"
 })

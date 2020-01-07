@@ -2,7 +2,11 @@ import React from 'react'
 import { View, Text, ImageBackground, StyleSheet, Image } from 'react-native'
 import { Icon, Button, Avatar } from 'react-native-elements'
 
-export function getWrittenDate(date: Date) {
+export function leadingZeros(s: any, zerocount: number = 2, char: string = '0'){
+    return (new Array(zerocount).join(char) + s.toString()).slice(-zerocount);
+}
+
+export function getWrittenDate(date: Date, type: "long" | "standard" = "standard") {
     date = new Date(date);
     var res = "";
     switch (date.getDay()) {
@@ -31,8 +35,11 @@ export function getWrittenDate(date: Date) {
         default:
             break;
     }
-    res += ("00" + date.getHours().toString()).slice(-2) + ":";
-    res += ("00" + date.getMinutes().toString()).slice(-2);
+    if(type == "long"){
+        res+= leadingZeros(date.getDate()) + "." + leadingZeros(date.getMonth()+1) + "." + date.getFullYear() + "\nAb ";
+    }
+    res +=leadingZeros(date.getHours()) + ":";
+    res += leadingZeros(date.getMinutes());
     return res;
 }
 
