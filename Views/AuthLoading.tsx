@@ -12,8 +12,6 @@ const mapStateToProps = (state: AppState) => ({
 type props = { navigation: NavigationScreenProp<NavigationState, NavigationParams> } & ReturnType<typeof mapStateToProps>;
 const AuthLoading = connect(mapStateToProps)(({ navigation, pending, user }: props) => {
     if (!pending) {
-        console.log(pending);
-        console.log(!!user);
         if (user)
             navigation.navigate("home")
         else

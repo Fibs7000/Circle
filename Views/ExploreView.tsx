@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { View, Text, StatusBar } from 'react-native'
-import Searchbar from './Searchbar'
+import { SearchBar } from './Searchbar'
 import ButtonSlider from './ButtonSlider'
 import { SearchTypes } from './MainView'
 import MapboxGL, { SymbolLayerStyle } from '@react-native-mapbox-gl/maps'
@@ -12,165 +12,17 @@ import EventsIcon from "../assets/images/EventsMapImage.png";
 import firebase, { firestore } from 'firebase'
 import 'firebase/firestore'
 import { EventDAO, createEventDAO } from '../entities'
-// const Types = SearchTypes.map(v=> v.title);
-// [[47.07075209, 15.46578839],
-// [47.08634322, 15.38421093],
-// [47.08153777, 15.43549997],
-// [47.04397546, 15.40551375],
-// [47.0741651, 15.4943256],
-// [47.09154882, 15.43315509],
-// [47.08238386, 15.40669488],
-// [47.10137763, 15.42536707],
-// [47.08829, 15.46509843],
-// [47.05862608, 15.43295286],
-// [47.05193507, 15.47573326],
-// [47.09768414, 15.44009911],
-// [47.06093671, 15.4806011],
-// [47.05341515, 15.42916201],
-// [47.05237505, 15.48807235],
-// [47.08071943, 15.49736888],
-// [47.06290238, 15.49274481],
-// [47.06145043, 15.4871527],
-// [47.05581686, 15.41119901],
-// [47.0378862, 15.40725835],
-// [47.05473936, 15.42254011],
-// [47.0695828, 15.37939805],
-// [47.09873366, 15.42527786],
-// [47.04910381, 15.40011043],
-// [47.04842904, 15.47022224],
-// [47.05448444, 15.44564028],
-// [47.07135638, 15.46022236],
-// [47.10066678, 15.39930187],
-// [47.09522774, 15.45547109],
-// [47.08960718, 15.46892984],
-// [47.05143764, 15.39639563],
-// [47.11159157, 15.46450535],
-// [47.03243243, 15.46478825],
-// [47.10539399, 15.40909041],
-// [47.07113512, 15.46109887],
-// [47.07418362, 15.39664771],
-// [47.03728414, 15.42067641],
-// [47.10257373, 15.48067347],
-// [47.05699763, 15.48998783],
-// [47.09852317, 15.42667022],
-// [47.11081792, 15.42284424],
-// [47.03254867, 15.43832291],
-// [47.06948839, 15.47603607],
-// [47.09341799, 15.39911315],
-// [47.09691166, 15.39677218],
-// [47.04354991, 15.44674905],
-// [47.0769489, 15.47000889],
-// [47.05083088, 15.39371961],
-// [47.03379634, 15.44560608],
-// [47.05386554, 15.40006976],
-// [47.03560998, 15.41060298],
-// [47.04212215, 15.43073449],
-// [47.09565704, 15.4610487],
-// [47.032339, 15.42660721],
-// [47.05022928, 15.47626578],
-// [47.10437611, 15.45235948],
-// [47.07146898, 15.43389648],
-// [47.07410656, 15.39234947],
-// [47.04327954, 15.39020968],
-// [47.09883979, 15.49077774],
-// [47.07082531, 15.46420277],
-// [47.03741011, 15.41270643],
-// [47.05098705, 15.44725332],
-// [47.06278521, 15.43241053],
-// [47.05797776, 15.4838929],
-// [47.08775187, 15.48543362],
-// [47.09356267, 15.48543636],
-// [47.04946804, 15.48125167],
-// [47.06893942, 15.38302992],
-// [47.08935268, 15.37843282],
-// [47.08202735, 15.41156609],
-// [47.11607668, 15.41933371],
-// [47.0532051, 15.46760336],
-// [47.10752178, 15.4632876],
-// [47.0346776, 15.4655618],
-// [47.0644429, 15.48357772],
-// [47.03786906, 15.40050544],
-// [47.03874823, 15.43072366],
-// [47.04112906, 15.47549928],
-// [47.03316547, 15.45873037],
-// [47.07710126, 15.37997854],
-// [47.03273063, 15.43655573],
-// [47.06541263, 15.43522543],
-// [47.10818224, 15.41812437],
-// [47.10157034, 15.45632568],
-// [47.09905631, 15.40827503],
-// [47.06700908, 15.46939384],
-// [47.09734158, 15.47608273],
-// [47.06417059, 15.41718004],
-// [47.07344195, 15.38279345],
-// [47.10779034, 15.44431339],
-// [47.07981709, 15.43794017],
-// [47.04592235, 15.45275202],
-// [47.11052065, 15.45724418],
-// [47.05877202, 15.47404972],
-// [47.11539152, 15.44639392],
-// [47.10360535, 15.42666597],
-// [47.11338342, 15.43445591],
-// [47.10817136, 15.40479118],
-// [47.07447431, 15.39678772],
-// ].map(v=> ({type: Types[Math.floor(Math.random()*4)%4], geo: new firebase.firestore.GeoPoint(v[0], v[1])}))
-// .map(v=> firebase.firestore().collection('events').add(v));
+import Drawer from 'react-native-advance-draggable-view'
+import { NearPlacesList } from './common/NearPlacesList'
+import { AppState } from '../redux/store'
+import { NavigationScreenProp, NavigationState, NavigationParams } from 'react-navigation'
+import { connect } from 'react-redux'
+import { calcDistance, toRadians } from './HelperFunctions'
+import { DragUpView } from './common/DragUpView'
+import { setPlaceAction } from '../redux/placeReducer'
+console.disableYellowBox = true;
 MapboxGL.setAccessToken("pk.eyJ1IjoiZmliczcwMDAiLCJhIjoiY2p4MXplcGExMDE0bDQ0cXFuOXVnM2dlZSJ9.D0HbtL6Bbvd77XRzD-QmlQ");
-// async function getAddress(geo: firestore.GeoPoint){
-//   const reqUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${geo.latitude},${geo.longitude}&key=AIzaSyBlcApC_sep8rr3_Hivir8mSb_bBe8PngE`;
-//   // console.log(reqUrl)
-//   const res = await fetch(reqUrl);
-//   const json = await res.json();
-//   // console.log(json);
-//   if(json.results && json.results.length>0){
-//     return json.results[0].formatted_address;
-//   }
-  
-//   console.log("------------No Address-----------")
-//   return "";
-// }
 
-// async function Update(){
-//   const col = await firebase.firestore().collection('events').get();
-  
-//   console.log("------------No Address line in "+col.size+" files-----------");
-//   // return;
-//   const mapsPromises = col.docs.map(async (d, i)=> {
-//     // var geo: firestore.GeoPoint = d.get('geo');
-//     // if(geo._lat){
-//     //   geo = new firestore.GeoPoint(geo._lat, geo._long);
-//     // }
-//     // const address = await getAddress(geo);
-//     return {...d.data(), date: Date.now()}
-//     return createEventDAO(d.id, d.get('type'), geo,
-//   address, new Date(Date.now() - i*100000), "Location"+i, "EventName"+i, Math.floor(Math.random() * 20), Math.floor(Math.random() * 50)/10);
-//   })
-//   const maps = await Promise.all(mapsPromises);
-//   // console.log(maps);
-//   for (const event of maps) {
-//    await firebase.firestore().collection('events').doc(event.id).set(event);
-//   }
-//   console.log("------------finished setting all-----------")
-// }
-// Update();
-const toRadians = (val: number) => val * Math.PI / 180;
-
-function calcDistance(lat1, lon1, lat2, lon2) {
-
-  var R = 6371e3; // metres
-  var φ1 = toRadians(lat1);
-  var φ2 = toRadians(lat2);
-  var Δφ = toRadians(lat2 - lat1);
-  var Δλ = toRadians(lon2 - lon1);
-
-  var a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-    Math.cos(φ1) * Math.cos(φ2) *
-    Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-  var d = R * c;
-  return d;
-}
 
 const START = [15.4192276, 47.0631052];
 const ICONS = [15.4192276, 47.0631052];
@@ -193,14 +45,14 @@ type FeatureType = {
   }
 }
 
-function createFeature(id: string, icon: string, coordinates: [number, number]): FeatureType{
+function createFeature(id: string, icon: string, coordinates: [number, number]): FeatureType {
   return {
     type: "Feature",
     id,
-    properties:{ 
+    properties: {
       icon
     },
-    geometry:{
+    geometry: {
       coordinates,
       type: "Point"
     }
@@ -223,7 +75,24 @@ var icons = {
 // }
 // Promise.all(promises).then(v => v.forEach(x => icons[x.title] = x.source));
 
-const ExploreView = () => {
+
+const mapStateToProps = (state: AppState) => ({
+  place: state.place
+})
+
+const mapDispatchToProps = {
+  setPlace: setPlaceAction
+}
+type props = { navigation: NavigationScreenProp<NavigationState, NavigationParams> } & ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
+
+const enhance = connect(mapStateToProps, mapDispatchToProps);
+
+
+const ExploreView = ({ navigation, place, setPlace }: props) => {
+
+
+  const location = [place.location.lon || START[0], place.location.lat || START[1]]
+
   const db = firebase.firestore().collection('events');
   const [search, updateSearch] = useState(""); //TODO: implement
   const [zoomLevel, setZoomLevel] = useState(14);
@@ -254,6 +123,8 @@ const ExploreView = () => {
     features: points4
   };
 
+  const [nearPlaces, setNearPlaces] = useState<EventDAO[]>([]);
+
 
   const map: React.MutableRefObject<MapboxGL.MapView> = useRef(null);
   const camera: React.MutableRefObject<MapboxGL.Camera> = useRef(null);
@@ -268,8 +139,18 @@ const ExploreView = () => {
     setZoomLevel(zoom);
     const [[lon1, lat1], [lon2, lat2]] = visibleBounds;
     const dist = calcDistance(lon1, lat1, lon2, lat2)
-    setDiameeter(dist);
+    setDiameeter(dist); 
     await getFirebaseData();
+    if(place.name) return;
+    const p = fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${center[1]}, ${center[0]}&key=AIzaSyBiKgVaBRi8e_5tca-RwD-D0li8_Yt2Pc8`)
+    const data = await (await p).json();
+
+    if (data.results && data.results.length > 0) {
+      var city = data.results[0].address_components.filter(a=> a.types.some(x=> x == "administrative_area_level_2"))[0].long_name;
+      
+      const center = await map.current.getCenter();
+      setPlace({location: { lat: center[1], lon: center[0]}, name: city});
+    }
   }
 
   const getFirebaseData = async (fv = null) => {
@@ -277,6 +158,15 @@ const ExploreView = () => {
     if (!fv && lastQuery) {
       const [[fblon1, fblat1], [fblon2, fblat2]] = lastQuery;
       if (lat1 <= fblat1 && lon1 <= fblon1 && lat2 >= fblat2 && lon2 >= fblon2) return;
+      const maxDiff = 0.1 / zoomLevel;
+      const borderDiffs = [
+        Math.abs(lat1 - fblat1),
+        Math.abs(lat2 - fblat2),
+        Math.abs(lon1 - fblon1),
+        Math.abs(lon2 - fblon2)
+      ];
+
+      if (borderDiffs.every(v => v < maxDiff)) return;
     }
     setLastQuery([[lon1, lat1], [lon2, lat2]]);
     const ne = new firebase.firestore.GeoPoint(lat1, lon1);
@@ -284,21 +174,20 @@ const ExploreView = () => {
     var query = db.where('geo', '>=', sw).where('geo', '<=', ne);
     if ((fv || filter).some(v => v.selected)) {
       const f = (fv || filter).filter(v => v.selected).map(v => v.title);
-      console.log(f);
       query = query.where('type', 'in', f);
     }
     const sn = await query.get();
+    setNearPlaces(sn.docs.map(d => ({ ...d.data(), id: d.id } as EventDAO)))
     const features = sn.docs.map((e): FeatureType => createFeature(e.id, e.get('type'), [e.get('geo').longitude, e.get('geo').latitude]));
-    // console.log(features);
-    setPoints1(features.filter(v=> v.properties.icon == SearchTypes[0].title));
-    setPoints2(features.filter(v=> v.properties.icon == SearchTypes[1].title));
-    setPoints3(features.filter(v=> v.properties.icon == SearchTypes[2].title));
-    setPoints4(features.filter(v=> v.properties.icon == SearchTypes[3].title));
+    // ;
+    setPoints1(features.filter(v => v.properties.icon == SearchTypes[0].title));
+    setPoints2(features.filter(v => v.properties.icon == SearchTypes[1].title));
+    setPoints3(features.filter(v => v.properties.icon == SearchTypes[2].title));
+    setPoints4(features.filter(v => v.properties.icon == SearchTypes[3].title));
   }
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <StatusBar backgroundColor="transparent" barStyle="dark-content" />
-      <Searchbar value={search} updateSearch={updateSearch}></Searchbar>
       <ButtonSlider data={SearchTypes} onChange={(v, i) => {
         var filterval = [...filter];
         filterval[i] = { ...filter[i], selected: v };
@@ -306,9 +195,27 @@ const ExploreView = () => {
         getFirebaseData(filterval);
       }} height={100} //TODO:IMPLEMENT
       />
-      <View style={{ height: "100%", width: "100%", backgroundColor: "#f00" }}>
+      <DragUpView Draggable={
+        <View style={{ backgroundColor: 'transparent', transform: [{ translateY: -28 }] }}>
+          <View style={{ backgroundColor: "#fffe", borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
+            <View style={{ width: 80, height: 8, borderRadius: 5, backgroundColor: "#aaa", alignSelf: "center", margin: 10 }} />
+          </View>
+          <View style={{ padding: 15, backgroundColor: "white" }}>
+            <Text style={{ fontSize: 30, fontWeight: "bold" }}  >{place.name}</Text>
+            <Text style={{ fontSize: 15 }}>Found
+            <Text style={{ fontWeight: "bold" }}> {nearPlaces.length} places</Text>
+              {" near "}
+              <Text style={{ fontWeight: "bold" }}>{place.name}</Text></Text>
+          </View>
+          <View style={{ flex: 1 }}>
+            <NearPlacesList navigation={navigation} onPressItem={(event) => null}//TODO:IMPL
+              events={nearPlaces.map(e => ({ ...e, distance: calcDistance(location[1], location[0], e.geo.latitude, e.geo.longitude) }))
+                .sort((a, b) => a.distance - b.distance)} />
+          </View>
+        </View>}
+        headerHeight={100}>
         <MapboxGL.MapView ref={map} style={{ flex: 1 }} onRegionDidChange={onRegionDidChange}  >
-          <MapboxGL.Camera ref={camera} key={1} zoomLevel={12} minZoomLevel={10} centerCoordinate={START} />
+          <MapboxGL.Camera ref={camera} key={1} zoomLevel={14} minZoomLevel={10} centerCoordinate={START} animationDuration={0} />
           <MapboxGL.Images images={icons} />
           <MapboxGL.ShapeSource id="sc1" shape={featureCollection1} cluster={false}>
             <MapboxGL.SymbolLayer id="sl1" style={iconStyle} />
@@ -323,9 +230,11 @@ const ExploreView = () => {
             <MapboxGL.SymbolLayer id="sl4" style={iconStyle} />
           </MapboxGL.ShapeSource>
         </MapboxGL.MapView>
-      </View>
+      </DragUpView>
+      <SearchBar setPlace={(p)=>{
+        camera.current.flyTo([p.location.lon, p.location.lat], 1000); setPlace(p)}} place={place} ></SearchBar>
     </View>
   )
 }
 
-export default ExploreView
+export default enhance(ExploreView)

@@ -1,8 +1,8 @@
 import React from 'react'
-import { View, Text, ImageBackground, StyleSheet } from 'react-native'
+import { View, Text, ImageBackground, StyleSheet, Image } from 'react-native'
 import { Icon, Button, Avatar } from 'react-native-elements'
 
-function getWrittenDate(date: Date) {
+export function getWrittenDate(date: Date) {
     date = new Date(date);
     var res = "";
     switch (date.getDay()) {
@@ -36,8 +36,48 @@ function getWrittenDate(date: Date) {
     return res;
 }
 
-const Card = ({ eventName, locationName, peopleCount, locationSpec, rating, mainImage, icon, date }: { eventName: string, locationName: string, peopleCount: number, locationSpec: string, rating: number, mainImage: object, icon: object, date: Date }) => {
-    return (
+type props = {
+    eventName: string,
+    locationName: string,
+    peopleCount: number,
+    locationSpec: string,
+    rating: number,
+    mainImage: object,
+    icon: object,
+    date: Date,
+    distance?: number,
+    small?: boolean
+}
+
+function getWrittenDistance(distance: number){
+    if(distance > 10000)
+        return (distance/1000).toFixed(0) + " km"
+    if(distance > 1000)
+        return (distance/1000).toFixed(1) + " km"
+        return (distance).toFixed(0) + " m"
+}
+
+const Card = ({ eventName, locationName, peopleCount, locationSpec, rating, mainImage, icon, date, distance = null, small = false }: props) => {
+    if (small)
+        return (
+            <View style={{ flexDirection: "row", height: 130, padding: 10 }}>
+                <Image source={mainImage} style={{ margin: 5, borderRadius: 5, aspectRatio: 1, height: "100%", width: "auto" }} />
+                <View style={{ flex: 1, paddingHorizontal: 5 }}>
+                    <Text style={{ fontSize: 20 }}>{eventName}</Text>
+                    <View style={{ flexDirection: "row", flex:1, marginRight: 20 }}>
+                        <Text style={{ color: "#999", marginRight: 10 }}>{locationSpec}</Text>
+                        <Icon name="location" type="evilicon" color="#0785F2" />
+                    </View>
+                    <View style={{justifyContent: "space-between", flexDirection: "row", alignItems: "baseline"}}>
+                        <Text style={{ color: "#aaa", fontWeight: "bold" }}>{getWrittenDate(date)}</Text>
+                        <Text style={{ color: "#aaa", fontWeight: "bold" }}>{getWrittenDistance(distance)}</Text>
+                    </View>
+                </View>
+            </View>
+        )
+
+    else return (
+
         <View>
             <View style={{ height: 80, flexDirection: "row", alignItems: "center", paddingHorizontal: 10 }}>
                 <Avatar source={icon} containerStyle={styles.shadow} size={50} rounded />

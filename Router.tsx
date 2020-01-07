@@ -19,6 +19,7 @@ import firebase from "firebase";
 
 import { View, Image } from 'react-native';
 import IconM from 'react-native-vector-icons/MaterialIcons';
+import PeerToPeerChatView from './Views/PeerToPeerChatView';
 
 
 const tutorial = createMaterialTopTabNavigator({
@@ -73,9 +74,16 @@ const authStack = createStackNavigator({
     headerMode: "none"
 });
 
+const main = createStackNavigator({
+    home,
+    chat: PeerToPeerChatView
+},{
+    headerMode: "none"
+})
+
 const root = createSwitchNavigator({
     auth: authStack,
-    home,
+    main,
     AuthLoading
 },{
     initialRouteName: "AuthLoading"

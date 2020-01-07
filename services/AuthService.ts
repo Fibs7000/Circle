@@ -11,9 +11,6 @@ export class AuthService {
 
   private async getUserData(uid: string){
     var user = (await this.userDataDB.doc(uid).get());
-    console.log(uid)
-    console.log(user);
-    console.log(user.data());
     return user.data() as User;
   }
 
@@ -22,7 +19,6 @@ export class AuthService {
       var u = await new Promise<firebase.auth.UserCredential>((resolve, reject)=> {firebase.auth().signInWithEmailAndPassword(email, password).then(v => resolve(v)).catch(r=> reject(r));});
       if (u.user) {
         var user = await this.getUserData(u.user.uid);
-        console.log(user);
         if (user.name) return user;
       }
       throw new Error("User cannot be fetched");

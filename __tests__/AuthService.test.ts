@@ -18,11 +18,11 @@ describe('AuthService', () => {
         var u = await new AuthService().signInWithCredential("test@test.com", "Passw0rd");
         expect(u.name).toBeTruthy();
     })
-    it('should be able to sign up', async () => {
-        expect.assertions(2);
-        var u = await new AuthService().signUp(new User("", "test1@test.com", "fn", "ln", "0660123456789"), "Passw0rd");
-        expect(u).toBeTruthy();
-        await firebase.auth().currentUser.delete();
-        expect(true).toBeTruthy();
-    })
+    // it('should be able to sign up', async () => {
+    //     expect.assertions(2);
+    //     var u = await new AuthService().signUp(new User("", "test1@test.com", "fn", "ln", "0660123456789"), "Passw0rd");
+    //     expect(u).toBeTruthy();
+    //     await firebase.auth().currentUser.delete();
+    //     expect(true).toBeTruthy();
+    // })
 });

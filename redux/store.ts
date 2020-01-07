@@ -2,13 +2,16 @@ import {createStore, applyMiddleware, combineReducers, compose} from "redux";
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import auth, { authState } from "./auth";
+import placeReducer, { placeState } from "./placeReducer";
 
 const reducers = {
-    auth: auth
+    auth: auth,
+    place: placeReducer
 }
 
 export type AppState = {
-    auth: authState
+    auth: authState,
+    place: placeState
 };
 
 export function configureStore(){

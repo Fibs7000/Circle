@@ -5,7 +5,7 @@ import IconSLI from 'react-native-vector-icons/SimpleLineIcons'
 import IconMatC from 'react-native-vector-icons/MaterialCommunityIcons'
 import IconMat from 'react-native-vector-icons/MaterialIcons'
 import IconEnt from 'react-native-vector-icons/Entypo'
-import Searchbar from './Searchbar';
+import {SearchBar} from './Searchbar';
 import ButtonSlider, { DataType } from './ButtonSlider';
 import Card from "./Card";
 import { ScrollView, FlatList } from 'react-native-gesture-handler';
@@ -62,8 +62,24 @@ export const SearchTypes: DataType[] = [
 
 //#endregion
 
+import { AppState } from "../redux/store";
+import { setPlaceAction } from "../redux/placeReducer";
+import { NavigationScreenProp, NavigationState, NavigationParams } from "react-navigation";
+import { connect } from "react-redux";
 
-const MainView = () => {
+const mapStateToProps = (state: AppState) => ({
+	place: state.place
+})
+
+const mapDispatchToProps = {
+	setPlace: setPlaceAction
+}
+
+type props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
+
+const enhance = connect(mapStateToProps, mapDispatchToProps);
+
+const MainView = ({place, setPlace}: props) => {
 	const db = firebase.firestore().collection('events');
 	const [search, updateSearch] = useState(""); //TODO: implement
 	const [cardData, setCardData] = useState<EventDAO[]>([]);
@@ -78,23 +94,19 @@ const MainView = () => {
 
 		if ((fv || filter).some(v => v.selected)) {
 			const f = (fv || filter).filter(v => v.selected).map(v => v.title);
-			console.log(f);
 			query = query.where('type', 'in', f);
 		}
 
 		if (!reset && cardData.length > 0) {
-			console.log(cardData.length);
-			// console.log(cardData);
+			// ;
 			query = query.startAfter(cardData[cardData.length - 1].geo);
 			const sn = await query.limit(10).get();
-			console.log(sn.size);
 			if (sn.size < 10) setNoMoreData(true);
 			//@ts-ignore
 			setCardData([...cardData, ...sn.docs.map(d => ({ ...d.data(), id: d.id }))]);
 		}
 		else {
 			const sn = await query.limit(10).get();
-			console.log(sn.size);
 			if (sn.size < 10) setNoMoreData(true);
 			//@ts-ignore
 			setCardData(sn.docs.map(d => ({ ...d.data(), id: d.id })));
@@ -103,8 +115,6 @@ const MainView = () => {
 
 	const onEndReached = ({ distanceFromEnd }) => {
 		getFirebaseData();
-		console.log("End Reached");
-		console.log(distanceFromEnd);
 	}
 
 	useEffect(() => {
@@ -124,15 +134,16 @@ const MainView = () => {
 			<FlatList
 				data={cardData}
 				renderItem={renderCard}
+				showsVerticalScrollIndicator={false}
 				ItemSeparatorComponent={() => <View style={{ borderBottomColor: "#999", borderBottomWidth: 0.5 }} />}
 				onEndReached={onEndReached}
 				keyExtractor={(item, index) => item.id}
 			// onEndReachedThreshold={5} 
 			/>
-			<Searchbar value={search} updateSearch={updateSearch}></Searchbar>
+			<SearchBar setPlace={setPlace} place={place} />
 		</View>
 	</>
 	)
 }
 
-export default MainView
+export default enhance(MainView)
